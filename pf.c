@@ -89,8 +89,8 @@
 #include <netinet6/ip6_divert.h>
 #endif /* INET6 */
 
-#include <net/pfvar.h>
-#include <net/pfvar_priv.h>
+#include "pfvar.h"
+#include "pfvar_priv.h"
 
 #if NPFLOG > 0
 #include <net/if_pflog.h>
