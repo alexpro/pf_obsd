@@ -49,6 +49,9 @@
 #include <sys/socketvar.h>
 #include <sys/kernel.h>
 #include <sys/time.h>
+
+#include <sys/sysctl.h>
+
 //#include <sys/pool.h>
 #include <sys/proc.h>
 #include <sys/rwlock.h>
