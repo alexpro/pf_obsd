@@ -49,7 +49,7 @@
 #include <sys/socketvar.h>
 #include <sys/kernel.h>
 #include <sys/time.h>
-#include <sys/pool.h>
+//#include <sys/pool.h>
 #include <sys/proc.h>
 #include <sys/rwlock.h>
 #include <sys/syslog.h>
@@ -159,9 +159,9 @@ struct pf_test_ctx {
 
 #define	PF_ANCHOR_STACK_MAX	64
 
-struct pool		 pf_src_tree_pl, pf_rule_pl, pf_queue_pl;
-struct pool		 pf_state_pl, pf_state_key_pl, pf_state_item_pl;
-struct pool		 pf_rule_item_pl, pf_sn_item_pl, pf_pktdelay_pl;
+uma_zone_t		 pf_src_tree_pl, pf_rule_pl, pf_queue_pl;
+uma_zone_t		 pf_state_pl, pf_state_key_pl, pf_state_item_pl;
+uma_zone_t		 pf_rule_item_pl, pf_sn_item_pl, pf_pktdelay_pl;
 
 void			 pf_add_threshold(struct pf_threshold *);
 int			 pf_check_threshold(struct pf_threshold *);
