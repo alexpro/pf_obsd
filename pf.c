@@ -54,7 +54,7 @@
 #include <sys/rwlock.h>
 #include <sys/syslog.h>
 
-#include <crypto/sha2.h>
+//#include <crypto/sha2.h>
 
 #include <net/if.h>
 #include <net/if_var.h>
