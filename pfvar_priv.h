@@ -167,7 +167,7 @@ extern struct rwlock	pf_state_lock;
 #endif /* WITH_PF_LOCK */
 
 extern void			 pf_purge_timeout(void *);
-extern void			 pf_purge(void *);
+extern void			 pf_purge(void *,int pending);
 #endif /* _KERNEL */
 
 #endif /* _NET_PFVAR_PRIV_H_ */

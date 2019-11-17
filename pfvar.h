@@ -35,6 +35,7 @@
 #define _NET_PFVAR_H_
 
 #include <sys/queue.h>
+#include <sys/taskqueue.h>
 #include <sys/tree.h>
 #include <sys/rwlock.h>
 #include <sys/syslimits.h>

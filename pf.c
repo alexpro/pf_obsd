@@ -127,7 +127,7 @@ int			 pf_tcp_secret_init;
 int			 pf_tcp_iss_off;
 
 int		 pf_npurge;
-struct task	 pf_purge_task = TASK_INITIALIZER(pf_purge, &pf_npurge);
+struct task	 pf_purge_task = TASK_INITIALIZER(0, pf_purge, &pf_npurge);
 struct timeout	 pf_purge_to = TIMEOUT_INITIALIZER(pf_purge_timeout, NULL);
 
 enum pf_test_status {
@@ -1259,7 +1259,7 @@ pf_purge_timeout(void *unused)
 }
 
 void
-pf_purge(void *xnloops)
+pf_purge(void *xnloops, int pending __unused)
 {
 	int *nloops = xnloops;
 
