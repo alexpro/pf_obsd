@@ -38,7 +38,7 @@
 #include <sys/tree.h>
 #include <sys/rwlock.h>
 #include <sys/syslimits.h>
-#include <sys/refcnt.h>
+#include <sys/refcount.h>
 
 #include <netinet/in.h>
 
@@ -58,6 +58,11 @@ struct mbuf_list;
 #error md5 digest length mismatch
 #endif
 #endif
+
+//FreeBSD
+struct refcnt {
+	unsigned int refs;
+};
 
 typedef struct refcnt	pf_refcnt_t;
 #define	PF_REF_INIT(_x)	refcnt_init(&(_x))
