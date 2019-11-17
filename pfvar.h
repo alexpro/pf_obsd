@@ -1028,27 +1028,25 @@ struct pfr_tstats {
 #define	pfrts_name	pfrts_t.pfrt_name
 #define pfrts_flags	pfrts_t.pfrt_flags
 
+#ifndef _SOCKADDR_UNION_DEFINED
+#define	_SOCKADDR_UNION_DEFINED
+union sockaddr_union {
+	struct sockaddr		sa;
+	struct sockaddr_in	sin;
+	struct sockaddr_in6	sin6;
+};
+#endif /* _SOCKADDR_UNION_DEFINED */
+
 struct pfr_kcounters {
 	u_int64_t		 pfrkc_packets[PFR_DIR_MAX][PFR_OP_ADDR_MAX];
 	u_int64_t		 pfrkc_bytes[PFR_DIR_MAX][PFR_OP_ADDR_MAX];
 	u_int64_t		 states;
 };
 
-/*
- * XXX ip_ipsp.h's sockaddr_union should be converted to sockaddr *
- * passing with correct sa_len, then a good approach for cleaning this
- * will become more clear.
- */
-union pfsockaddr_union {
-	struct sockaddr		sa;
-	struct sockaddr_in	sin;
-	struct sockaddr_in6	sin6;
-};
-
 SLIST_HEAD(pfr_kentryworkq, pfr_kentry);
 struct _pfr_kentry {
 	struct radix_node	 _pfrke_node[2];
-	union pfsockaddr_union	 _pfrke_sa;
+	union sockaddr_union	 _pfrke_sa;
 	SLIST_ENTRY(pfr_kentry)	 _pfrke_workq;
 	struct pfr_kcounters	*_pfrke_counters;
 	time_t			 _pfrke_tzero;
