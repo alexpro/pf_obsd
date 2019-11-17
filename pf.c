@@ -57,7 +57,7 @@
 #include <sys/rwlock.h>
 #include <sys/syslog.h>
 
-//#include <crypto/sha2.h>
+#include <sys/md5.h>
 
 #include <net/if.h>
 #include <net/if_var.h>
@@ -121,7 +121,7 @@ struct pf_status	 pf_status;
 
 int			 pf_hdr_limit = 20;  /* arbitrary limit, tune in ddb */
 
-SHA2_CTX		 pf_tcp_secret_ctx;
+MD5_CTX			 pf_tcp_secret_ctx;
 u_char			 pf_tcp_secret[16];
 int			 pf_tcp_secret_init;
 int			 pf_tcp_iss_off;
