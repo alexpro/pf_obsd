@@ -187,6 +187,9 @@ struct pf_addr {
 #define PFI_AFLAG_MODEMASK	0x07
 #define PFI_AFLAG_NOALIAS	0x08
 
+//FreeBSD
+#define RTLABEL_LEN            32
+
 struct pf_addr_wrap {
 	union {
 		struct {
