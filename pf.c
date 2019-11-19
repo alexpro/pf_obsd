@@ -528,10 +528,10 @@ pf_src_connlimit(struct pf_state **state)
 				}
 			}
 			if (pf_status.debug >= LOG_NOTICE)
-				addlog(", %u states killed", killed);
+				printf(", %u states killed", killed);
 		}
 		if (pf_status.debug >= LOG_NOTICE)
-			addlog("\n");
+			printf("\n");
 	}
 
 	/* kill this state */
@@ -580,7 +580,7 @@ pf_insert_src_node(struct pf_src_node **sn, struct pf_rule *rule,
 				log(LOG_NOTICE,
 				    "pf: src_tree insert failed: ");
 				pf_print_host(&(*sn)->addr, 0, af);
-				addlog("\n");
+				printf("\n");
 			}
 			pool_put(&pf_src_tree_pl, *sn);
 			return (-1);
@@ -725,11 +725,11 @@ pf_state_key_attach(struct pf_state_key *sk, struct pf_state *s, int idx)
 					pf_print_state_parts(s,
 					    (idx == PF_SK_WIRE) ?  sk : NULL,
 					    (idx == PF_SK_STACK) ?  sk : NULL);
-					addlog(", existing: ");
+					printf(", existing: ");
 					pf_print_state_parts(si->s,
 					    (idx == PF_SK_WIRE) ?  sk : NULL,
 					    (idx == PF_SK_STACK) ?  sk : NULL);
-					addlog("\n");
+					printf("\n");
 				}
 				if (reuse) {
 					pf_set_protostate(si->s, PF_PEER_BOTH,
@@ -936,7 +936,7 @@ pf_state_key_setup(struct pf_pdesc *pd, struct pf_state_key **skw,
 	if (pf_status.debug >= LOG_DEBUG) {
 		log(LOG_DEBUG, "pf: key setup: ");
 		pf_print_state_parts(NULL, *skw, *sks);
-		addlog("\n");
+		printf("\n");
 	}
 
 	return (0);
@@ -981,7 +981,7 @@ pf_state_insert(struct pfi_kif *kif, struct pf_state_key **skw,
 			log(LOG_NOTICE, "pf: state insert failed: "
 			    "id: %016llx creatorid: %08x",
 			    betoh64(s->id), ntohl(s->creatorid));
-			addlog("\n");
+			printf("\n");
 		}
 		pf_detach_state(s);
 		PF_STATE_EXIT_WRITE();
@@ -1026,15 +1026,15 @@ pf_compare_state_keys(struct pf_state_key *a, struct pf_state_key *b,
 			    dir == PF_OUT ? "OUT" : "IN",
 			    kif->pfik_name, a->af);
 			pf_print_host(&a->addr[0], a->port[0], a->af);
-			addlog(", a1: ");
+			printf(", a1: ");
 			pf_print_host(&a->addr[1], a->port[1], a->af);
-			addlog(", proto=%u", a->proto);
-			addlog(", found af=%u, a0: ", b->af);
+			printf(", proto=%u", a->proto);
+			printf(", found af=%u, a0: ", b->af);
 			pf_print_host(&b->addr[0], b->port[0], b->af);
-			addlog(", a1: ");
+			printf(", a1: ");
 			pf_print_host(&b->addr[1], b->port[1], b->af);
-			addlog(", proto=%u", b->proto);
-			addlog("\n");
+			printf(", proto=%u", b->proto);
+			printf("\n");
 		}
 		return (-1);
 	}
@@ -1053,7 +1053,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 		log(LOG_DEBUG, "pf: key search, %s on %s: ",
 		    pd->dir == PF_OUT ? "out" : "in", pd->kif->pfik_name);
 		pf_print_state_parts(NULL, (struct pf_state_key *)key, NULL);
-		addlog("\n");
+		printf("\n");
 	}
 
 	inp_sk = NULL;
@@ -1546,11 +1546,11 @@ pf_print_host(struct pf_addr *addr, u_int16_t p, sa_family_t af)
 	switch (af) {
 	case AF_INET: {
 		u_int32_t a = ntohl(addr->addr32[0]);
-		addlog("%u.%u.%u.%u", (a>>24)&255, (a>>16)&255,
+		printf("%u.%u.%u.%u", (a>>24)&255, (a>>16)&255,
 		    (a>>8)&255, a&255);
 		if (p) {
 			p = ntohs(p);
-			addlog(":%u", p);
+			printf(":%u", p);
 		}
 		break;
 	}
@@ -1581,19 +1581,19 @@ pf_print_host(struct pf_addr *addr, u_int16_t p, sa_family_t af)
 		for (i = 0; i < 8; i++) {
 			if (i >= maxstart && i <= maxend) {
 				if (i == 0)
-					addlog(":");
+					printf(":");
 				if (i == maxend)
-					addlog(":");
+					printf(":");
 			} else {
 				b = ntohs(addr->addr16[i]);
-				addlog("%x", b);
+				printf("%x", b);
 				if (i < 7)
-					addlog(":");
+					printf(":");
 			}
 		}
 		if (p) {
 			p = ntohs(p);
-			addlog("[%u]", p);
+			printf("[%u]", p);
 		}
 		break;
 	}
@@ -1622,70 +1622,70 @@ pf_print_state_parts(struct pf_state *s,
 
 	switch (proto) {
 	case IPPROTO_IPV4:
-		addlog("IPv4");
+		printf("IPv4");
 		break;
 	case IPPROTO_IPV6:
-		addlog("IPv6");
+		printf("IPv6");
 		break;
 	case IPPROTO_TCP:
-		addlog("TCP");
+		printf("TCP");
 		break;
 	case IPPROTO_UDP:
-		addlog("UDP");
+		printf("UDP");
 		break;
 	case IPPROTO_ICMP:
-		addlog("ICMP");
+		printf("ICMP");
 		break;
 	case IPPROTO_ICMPV6:
-		addlog("ICMPv6");
+		printf("ICMPv6");
 		break;
 	default:
-		addlog("%u", proto);
+		printf("%u", proto);
 		break;
 	}
 	switch (dir) {
 	case PF_IN:
-		addlog(" in");
+		printf(" in");
 		break;
 	case PF_OUT:
-		addlog(" out");
+		printf(" out");
 		break;
 	}
 	if (skw) {
-		addlog(" wire: (%d) ", skw->rdomain);
+		printf(" wire: (%d) ", skw->rdomain);
 		pf_print_host(&skw->addr[0], skw->port[0], skw->af);
-		addlog(" ");
+		printf(" ");
 		pf_print_host(&skw->addr[1], skw->port[1], skw->af);
 	}
 	if (sks) {
-		addlog(" stack: (%d) ", sks->rdomain);
+		printf(" stack: (%d) ", sks->rdomain);
 		if (sks != skw) {
 			pf_print_host(&sks->addr[0], sks->port[0], sks->af);
-			addlog(" ");
+			printf(" ");
 			pf_print_host(&sks->addr[1], sks->port[1], sks->af);
 		} else
-			addlog("-");
+			printf("-");
 	}
 	if (s) {
 		if (proto == IPPROTO_TCP) {
-			addlog(" [lo=%u high=%u win=%u modulator=%u",
+			printf(" [lo=%u high=%u win=%u modulator=%u",
 			    s->src.seqlo, s->src.seqhi,
 			    s->src.max_win, s->src.seqdiff);
 			if (s->src.wscale && s->dst.wscale)
-				addlog(" wscale=%u",
+				printf(" wscale=%u",
 				    s->src.wscale & PF_WSCALE_MASK);
-			addlog("]");
-			addlog(" [lo=%u high=%u win=%u modulator=%u",
+			printf("]");
+			printf(" [lo=%u high=%u win=%u modulator=%u",
 			    s->dst.seqlo, s->dst.seqhi,
 			    s->dst.max_win, s->dst.seqdiff);
 			if (s->src.wscale && s->dst.wscale)
-				addlog(" wscale=%u",
+				printf(" wscale=%u",
 				s->dst.wscale & PF_WSCALE_MASK);
-			addlog("]");
+			printf("]");
 		}
-		addlog(" %u:%u", s->src.state, s->dst.state);
+		printf(" %u:%u", s->src.state, s->dst.state);
 		if (s->rule.ptr)
-			addlog(" @%d", s->rule.ptr->nr);
+			printf(" @%d", s->rule.ptr->nr);
 	}
 }
 
@@ -1693,23 +1693,23 @@ void
 pf_print_flags(u_int8_t f)
 {
 	if (f)
-		addlog(" ");
+		printf(" ");
 	if (f & TH_FIN)
-		addlog("F");
+		printf("F");
 	if (f & TH_SYN)
-		addlog("S");
+		printf("S");
 	if (f & TH_RST)
-		addlog("R");
+		printf("R");
 	if (f & TH_PUSH)
-		addlog("P");
+		printf("P");
 	if (f & TH_ACK)
-		addlog("A");
+		printf("A");
 	if (f & TH_URG)
-		addlog("U");
+		printf("U");
 	if (f & TH_ECE)
-		addlog("E");
+		printf("E");
 	if (f & TH_CWR)
-		addlog("W");
+		printf("W");
 }
 
 #define	PF_SET_SKIP_STEPS(i)					\
@@ -1788,7 +1788,7 @@ pf_addr_wrap_neq(struct pf_addr_wrap *aw1, struct pf_addr_wrap *aw2)
 	case PF_ADDR_RTLABEL:
 		return (aw1->v.rtlabel != aw2->v.rtlabel);
 	default:
-		addlog("invalid address type: %d\n", aw1->type);
+		printf("invalid address type: %d\n", aw1->type);
 		return (1);
 	}
 }
@@ -4529,7 +4529,7 @@ pf_tcp_track_full(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 			log(LOG_NOTICE, "pf: loose state match: ");
 			pf_print_state(*state);
 			pf_print_flags(th->th_flags);
-			addlog(" seq=%u (%u) ack=%u len=%u ackskew=%d "
+			printf(" seq=%u (%u) ack=%u len=%u ackskew=%d "
 			    "pkts=%llu:%llu dir=%s,%s\n", seq, orig_seq, ack,
 			    pd->p_len, ackskew, (*state)->packets[0],
 			    (*state)->packets[1],
@@ -4582,13 +4582,13 @@ pf_tcp_track_full(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 			log(LOG_NOTICE, "pf: BAD state: ");
 			pf_print_state(*state);
 			pf_print_flags(th->th_flags);
-			addlog(" seq=%u (%u) ack=%u len=%u ackskew=%d "
+			printf(" seq=%u (%u) ack=%u len=%u ackskew=%d "
 			    "pkts=%llu:%llu dir=%s,%s\n",
 			    seq, orig_seq, ack, pd->p_len, ackskew,
 			    (*state)->packets[0], (*state)->packets[1],
 			    pd->dir == PF_IN ? "in" : "out",
 			    pd->dir == (*state)->direction ? "fwd" : "rev");
-			addlog("pf: State failure on: %c %c %c %c | %c %c\n",
+			printf("pf: State failure on: %c %c %c %c | %c %c\n",
 			    SEQ_GEQ(src->seqhi, data_end) ? ' ' : '1',
 			    SEQ_GEQ(seq, src->seqlo - (dst->max_win << dws)) ?
 			    ' ': '2',
@@ -4840,7 +4840,7 @@ pf_test_state(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 					log(LOG_NOTICE, "pf: state reuse ");
 					pf_print_state(*state);
 					pf_print_flags(pd->hdr.tcp.th_flags);
-					addlog("\n");
+					printf("\n");
 				}
 				/* XXX make sure it's the same direction ?? */
 				(*state)->timeout = PFTM_PURGE;
@@ -4998,7 +4998,7 @@ pf_icmp_state_lookup(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 			    "pf: icmp type %d in wrong direction (%d): ",
 			    ntohs(type), icmp_dir);
 			pf_print_state(*state);
-			addlog("\n");
+			printf("\n");
 		}
 		return (PF_DROP);
 	}
@@ -5207,13 +5207,13 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 				    "pf: BAD ICMP %d:%d outer dst: ",
 				    icmptype, icmpcode);
 				pf_print_host(pd->src, 0, pd->af);
-				addlog(" -> ");
+				printf(" -> ");
 				pf_print_host(pd->dst, 0, pd->af);
-				addlog(" inner src: ");
+				printf(" inner src: ");
 				pf_print_host(pd2.src, 0, pd2.af);
-				addlog(" -> ");
+				printf(" -> ");
 				pf_print_host(pd2.dst, 0, pd2.af);
-				addlog("\n");
+				printf("\n");
 			}
 			REASON_SET(reason, PFRES_BADSTATE);
 			return (PF_DROP);
@@ -5289,11 +5289,11 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 					    "pf: BAD ICMP %d:%d ",
 					    icmptype, icmpcode);
 					pf_print_host(pd->src, 0, pd->af);
-					addlog(" -> ");
+					printf(" -> ");
 					pf_print_host(pd->dst, 0, pd->af);
-					addlog(" state: ");
+					printf(" state: ");
 					pf_print_state(*state);
-					addlog(" seq=%u\n", seq);
+					printf(" seq=%u\n", seq);
 				}
 				REASON_SET(reason, PFRES_BADSTATE);
 				return (PF_DROP);
@@ -5303,11 +5303,11 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 					    "pf: OK ICMP %d:%d ",
 					    icmptype, icmpcode);
 					pf_print_host(pd->src, 0, pd->af);
-					addlog(" -> ");
+					printf(" -> ");
 					pf_print_host(pd->dst, 0, pd->af);
-					addlog(" state: ");
+					printf(" state: ");
 					pf_print_state(*state);
-					addlog(" seq=%u\n", seq);
+					printf(" seq=%u\n", seq);
 				}
 			}
 
