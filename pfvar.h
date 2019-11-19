@@ -1695,11 +1695,11 @@ extern struct pf_queuehead		  pf_queues[2];
 extern struct pf_queuehead		 *pf_queues_active, *pf_queues_inactive;
 
 extern u_int32_t		 ticket_pabuf;
-extern struct pool		 pf_src_tree_pl, pf_sn_item_pl, pf_rule_pl;
-extern struct pool		 pf_state_pl, pf_state_key_pl, pf_state_item_pl,
+extern uma_zone_t		 pf_src_tree_pl, pf_sn_item_pl, pf_rule_pl;
+extern uma_zone_t		 pf_state_pl, pf_state_key_pl, pf_state_item_pl,
 				    pf_rule_item_pl, pf_queue_pl,
 				    pf_pktdelay_pl;
-extern struct pool		 pf_state_scrub_pl;
+extern uma_zone_t		 pf_state_scrub_pl;
 extern struct ifnet		*sync_ifp;
 extern struct pf_rule		 pf_default_rule;
 
