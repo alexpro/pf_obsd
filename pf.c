@@ -475,8 +475,7 @@ pf_src_connlimit(struct pf_state **state)
 
 		pf_status.lcounters[LCNT_OVERLOAD_TABLE]++;
 		if (pf_status.debug >= LOG_NOTICE) {
-			log(LOG_NOTICE,
-			    "pf: pf_src_connlimit: blocking address ");
+			printf("pf: pf_src_connlimit: blocking address ");
 			pf_print_host(&sn->addr, 0,
 			    (*state)->key[PF_SK_WIRE]->af);
 		}
@@ -577,8 +576,7 @@ pf_insert_src_node(struct pf_src_node **sn, struct pf_rule *rule,
 		if (RB_INSERT(pf_src_tree,
 		    &tree_src_tracking, *sn) != NULL) {
 			if (pf_status.debug >= LOG_NOTICE) {
-				log(LOG_NOTICE,
-				    "pf: src_tree insert failed: ");
+				printf("pf: src_tree insert failed: ");
 				pf_print_host(&(*sn)->addr, 0, af);
 				printf("\n");
 			}
@@ -716,8 +714,7 @@ pf_state_key_attach(struct pf_state_key *sk, struct pf_state *s, int idx)
 				    si->s->dst.state >= TCPS_FIN_WAIT_2)
 					reuse = 1;
 				if (pf_status.debug >= LOG_NOTICE) {
-					log(LOG_NOTICE,
-					    "pf: %s key attach %s on %s: ",
+					printf("pf: %s key attach %s on %s: ",
 					    (idx == PF_SK_WIRE) ?
 					    "wire" : "stack",
 					    reuse ? "reuse" : "failed",
@@ -934,7 +931,7 @@ pf_state_key_setup(struct pf_pdesc *pd, struct pf_state_key **skw,
 	}
 
 	if (pf_status.debug >= LOG_DEBUG) {
-		log(LOG_DEBUG, "pf: key setup: ");
+		printf("pf: key setup: ");
 		pf_print_state_parts(NULL, *skw, *sks);
 		printf("\n");
 	}
@@ -978,7 +975,7 @@ pf_state_insert(struct pfi_kif *kif, struct pf_state_key **skw,
 	}
 	if (RB_INSERT(pf_state_tree_id, &tree_id, s) != NULL) {
 		if (pf_status.debug >= LOG_NOTICE) {
-			log(LOG_NOTICE, "pf: state insert failed: "
+			printf("pf: state insert failed: "
 			    "id: %016llx creatorid: %08x",
 			    betoh64(s->id), ntohl(s->creatorid));
 			printf("\n");
@@ -1020,8 +1017,7 @@ pf_compare_state_keys(struct pf_state_key *a, struct pf_state_key *b,
 	else {
 		/* mismatch. must not happen. */
 		if (pf_status.debug >= LOG_ERR) {
-			log(LOG_ERR,
-			    "pf: state key linking mismatch! dir=%s, "
+			printf("pf: state key linking mismatch! dir=%s, "
 			    "if=%s, stored af=%u, a0: ",
 			    dir == PF_OUT ? "OUT" : "IN",
 			    kif->pfik_name, a->af);
@@ -1050,7 +1046,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 
 	pf_status.fcounters[FCNT_STATE_SEARCH]++;
 	if (pf_status.debug >= LOG_DEBUG) {
-		log(LOG_DEBUG, "pf: key search, %s on %s: ",
+		printf("pf: key search, %s on %s: ",
 		    pd->dir == PF_OUT ? "out" : "in", pd->kif->pfik_name);
 		pf_print_state_parts(NULL, (struct pf_state_key *)key, NULL);
 		printf("\n");
@@ -3123,7 +3119,7 @@ pf_step_into_anchor(struct pf_test_ctx *ctx, struct pf_rule *r)
 	int	rv;
 
 	if (ctx->depth >= PF_ANCHOR_STACK_MAX) {
-		log(LOG_ERR, "pf_step_into_anchor: stack overflow\n");
+		printf("pf_step_into_anchor: stack overflow\n");
 		return (PF_TEST_FAIL);
 	}
 
@@ -4526,7 +4522,7 @@ pf_tcp_track_full(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 		 */
 
 		if (pf_status.debug >= LOG_NOTICE) {
-			log(LOG_NOTICE, "pf: loose state match: ");
+			printf("pf: loose state match: ");
 			pf_print_state(*state);
 			pf_print_flags(th->th_flags);
 			printf(" seq=%u (%u) ack=%u len=%u ackskew=%d "
@@ -4579,7 +4575,7 @@ pf_tcp_track_full(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 			src->seqhi = 1;
 			src->max_win = 1;
 		} else if (pf_status.debug >= LOG_NOTICE) {
-			log(LOG_NOTICE, "pf: BAD state: ");
+			printf("pf: BAD state: ");
 			pf_print_state(*state);
 			pf_print_flags(th->th_flags);
 			printf(" seq=%u (%u) ack=%u len=%u ackskew=%d "
@@ -4837,7 +4833,7 @@ pf_test_state(struct pf_pdesc *pd, struct pf_state **state, u_short *reason,
 			if (dst->state >= TCPS_FIN_WAIT_2 &&
 			    src->state >= TCPS_FIN_WAIT_2) {
 				if (pf_status.debug >= LOG_NOTICE) {
-					log(LOG_NOTICE, "pf: state reuse ");
+					printf("pf: state reuse ");
 					pf_print_state(*state);
 					pf_print_flags(pd->hdr.tcp.th_flags);
 					printf("\n");
@@ -4994,8 +4990,7 @@ pf_icmp_state_lookup(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 	    (inner && direction != pd->dir)) ?
 	    PF_IN : PF_OUT) != icmp_dir) {
 		if (pf_status.debug >= LOG_NOTICE) {
-			log(LOG_NOTICE,
-			    "pf: icmp type %d in wrong direction (%d): ",
+			printf("pf: icmp type %d in wrong direction (%d): ",
 			    ntohs(type), icmp_dir);
 			pf_print_state(*state);
 			printf("\n");
@@ -5203,8 +5198,7 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 
 		if (PF_ANEQ(pd->dst, pd2.src, pd->af)) {
 			if (pf_status.debug >= LOG_NOTICE) {
-				log(LOG_NOTICE,
-				    "pf: BAD ICMP %d:%d outer dst: ",
+				printf("pf: BAD ICMP %d:%d outer dst: ",
 				    icmptype, icmpcode);
 				pf_print_host(pd->src, 0, pd->af);
 				printf(" -> ");
@@ -5285,8 +5279,7 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 			    (!SEQ_GEQ(src->seqhi, seq) || !SEQ_GEQ(seq,
 			    src->seqlo - (dst->max_win << dws)))) {
 				if (pf_status.debug >= LOG_NOTICE) {
-					log(LOG_NOTICE,
-					    "pf: BAD ICMP %d:%d ",
+					printf("pf: BAD ICMP %d:%d ",
 					    icmptype, icmpcode);
 					pf_print_host(pd->src, 0, pd->af);
 					printf(" -> ");
@@ -5299,8 +5292,7 @@ pf_test_state_icmp(struct pf_pdesc *pd, struct pf_state **state,
 				return (PF_DROP);
 			} else {
 				if (pf_status.debug >= LOG_DEBUG) {
-					log(LOG_DEBUG,
-					    "pf: OK ICMP %d:%d ",
+					printf("pf: OK ICMP %d:%d ",
 					    icmptype, icmpcode);
 					pf_print_host(pd->src, 0, pd->af);
 					printf(" -> ");
