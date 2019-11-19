@@ -99,7 +99,7 @@ struct pf_pdesc {
 };
 
 extern struct task	pf_purge_task;
-extern struct timeout	pf_purge_to;
+extern struct callout	pf_purge_to;
 
 struct pf_state		*pf_state_ref(struct pf_state *);
 void			 pf_state_unref(struct pf_state *);

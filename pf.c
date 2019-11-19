@@ -128,7 +128,7 @@ int			 pf_tcp_iss_off;
 
 int		 pf_npurge;
 struct task	 pf_purge_task = TASK_INITIALIZER(0, pf_purge, &pf_npurge);
-struct timeout	 pf_purge_to = TIMEOUT_INITIALIZER(pf_purge_timeout, NULL);
+struct callout	 pf_purge_to; /*Must be initialized (where???)*/
 
 enum pf_test_status {
 	PF_TEST_FAIL = -1,
