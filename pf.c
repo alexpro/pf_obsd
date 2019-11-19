@@ -408,8 +408,6 @@ pf_addrcpy(struct pf_addr *dst, struct pf_addr *src, sa_family_t af)
 		dst->addr32[3] = src->addr32[3];
 		break;
 #endif /* INET6 */
-	default:
-		unhandled_af(af);
 	}
 }
 
