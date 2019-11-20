@@ -234,6 +234,7 @@ struct pfi_dynaddr {
 #define PR_ZERO M_ZERO
 
 #define pool_get(p, f)	uma_zalloc(*(p), (f))
+#define pool_put(p, o)	uma_zfree(*(p), (o))
 
 /*
  * Logging macros
