@@ -696,7 +696,7 @@ pf_state_key_attach(struct pf_state_key *sk, struct pf_state *s, int idx)
 	struct pf_state_key     *cur;
 	struct pf_state		*olds = NULL;
 
-	KASSERT(s->key[idx] == NULL);
+	KASSERT(s->key[idx] == NULL, "pf_state_key_attach: s->key[idx] == NULL");
 	if ((cur = RB_INSERT(pf_state_tree, &pf_statetbl, sk)) != NULL) {
 		/* key exists. check for same kif, if none, add to key */
 		TAILQ_FOREACH(si, &cur->states, entry)
