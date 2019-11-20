@@ -230,6 +230,10 @@ struct pfi_dynaddr {
 };
 #endif /* _KERNEL */
 
+#define PR_NOWAIT M_NOWAIT
+#define PR_ZERO M_ZERO
+
+#define pool_get(p, f)	uma_zalloc(*(p), (f))
 
 /*
  * Logging macros
