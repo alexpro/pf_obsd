@@ -60,13 +60,8 @@ struct mbuf_list;
 #endif
 #endif
 
-//FreeBSD
-struct refcnt {
-	unsigned int refs;
-};
-
-typedef struct refcnt	pf_refcnt_t;
-#define	PF_REF_INIT(_x)	refcnt_init(&(_x))
+typedef u_int pf_refcnt_t;
+#define	PF_REF_INIT(_x)	refcount_init(&(_x),1)
 #define	PF_REF_TAKE(_x)	refcnt_take(&(_x))
 #define	PF_REF_RELE(_x)	refcnt_rele(&(_x))
 
