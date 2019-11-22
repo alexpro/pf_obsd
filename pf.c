@@ -887,7 +887,7 @@ pf_state_key_setup(struct pf_pdesc *pd, struct pf_state_key **skw,
 	PF_REF_INIT(sk1->refcnt);
 	sk1->removed = 0;
 	if (rtableid >= 0)
-		wrdom = rtable_l2(rtableid);
+		wrdom = 0; /*Default routing domain*/
 
 	if (PF_ANEQ(&pd->nsaddr, pd->src, pd->af) ||
 	    PF_ANEQ(&pd->ndaddr, pd->dst, pd->af) ||
