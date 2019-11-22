@@ -42,6 +42,7 @@
 #include "pflow.h"
 
 #include <sys/param.h>
+#include <sys/endian.h>
 #include <sys/systm.h>
 #include <sys/mbuf.h>
 #include <sys/filio.h>
@@ -977,7 +978,7 @@ pf_state_insert(struct pfi_kif *kif, struct pf_state_key **skw,
 		if (pf_status.debug >= LOG_NOTICE) {
 			printf("pf: state insert failed: "
 			    "id: %016llx creatorid: %08x",
-			    betoh64(s->id), ntohl(s->creatorid));
+			    (long long)be64toh(s->id), ntohl(s->creatorid));
 			printf("\n");
 		}
 		pf_detach_state(s);
