@@ -102,7 +102,7 @@
 #endif	/* NPFLOW > 0 */
 
 #if NPFSYNC > 0
-#include <net/if_pfsync.h>
+#include "if_pfsync.h"
 #endif /* NPFSYNC > 0 */
 
 #ifdef DDB
