@@ -273,34 +273,34 @@ struct pfsyncreq {
 
 #ifdef _KERNEL
 
-#include <sys/percpu.h>
+#include <sys/pcpu.h>
 
-enum pfsync_counters {
-	pfsyncs_ipackets,
-	pfsyncs_ipackets6,
-	pfsyncs_badif,
-	pfsyncs_badttl,
-	pfsyncs_hdrops,
-	pfsyncs_badver,
-	pfsyncs_badact,
-	pfsyncs_badlen,
-	pfsyncs_badauth,
-	pfsyncs_stale,
-	pfsyncs_badval,
-	pfsyncs_badstate,
-	pfsyncs_opackets,
-	pfsyncs_opackets6,
-	pfsyncs_onomem,
-	pfsyncs_oerrors,
-	pfsyncs_ncounters,
-};
+#define	pfsyncs_ipackets	0
+#define	pfsyncs_ipackets6	1
+#define	pfsyncs_badif		2
+#define	pfsyncs_badttl		3
+#define	pfsyncs_hdrops		4
+#define	pfsyncs_badver		5
+#define	pfsyncs_badact		6
+#define	pfsyncs_badlen		7
+#define	pfsyncs_badauth		8
+#define	pfsyncs_stale		9
+#define	pfsyncs_badval		10
+#define	pfsyncs_badstate	11
+#define	pfsyncs_opackets	12
+#define	pfsyncs_opackets6	13
+#define	pfsyncs_onomem		14
+#define	pfsyncs_oerrors		15
+#define	pfsyncs_ncounters	16
 
-extern struct cpumem *pfsynccounters;
+#define PFSYNC_NCOUNTERS	17
+
+extern counter_u64_t *pfsynccounters;
 
 static inline void
-pfsyncstat_inc(enum pfsync_counters c)
+pfsyncstat_inc(int c)
 {
-	counters_inc(pfsynccounters, c);
+	counter_u64_add(pfsynccounters[c], 1);
 }
 
 /*
