@@ -1076,7 +1076,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 					sk = inp_sk;
 				else
 					pf_inpcb_unlink_state_key(
-					    pd->m->m_pkthdr.pf.inp);
+					    pd->ph_pf->oinp);
 			}
 		}
 	}
@@ -1088,8 +1088,8 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 		if (pd->dir == PF_OUT && pkt_sk &&
 		    pf_compare_state_keys(pkt_sk, sk, pd->kif, pd->dir) == 0)
 			pf_state_key_link_reverse(sk, pkt_sk);
-		else if (pd->dir == PF_OUT && pd->m->m_pkthdr.pf.inp &&
-		    !pd->m->m_pkthdr.pf.inp->inp_pf_sk && !sk->inp)
+		else if (pd->dir == PF_OUT && pd->ph_pf->oinp &&
+		    !pd->ph_pf->oinp->inp_pf_sk && !sk->inp)
 			pf_state_key_link_inpcb(sk, pd->m->m_pkthdr.pf.inp);
 	}
 
