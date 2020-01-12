@@ -41,10 +41,16 @@
 
 extern struct rwlock pf_lock;
 
+/*For extra data in OpenBSD inpcb*/
+struct obsd_pf_inpcb {
+    struct inpcb *inp; //inpcb
+    struct pf_state_key *inp_pf_sk;
+};
+
 /* from OpenBSD (mbuf.h) */
 struct pkthdr_pf {
 	struct pf_state_key *statekey;	/* pf stackside statekey */
-	struct inpcb	*inp;		/* connected pcb for outgoing packet */
+	struct obsd_pf_inpcb	*oinp;		/* connected pcb for outgoing packet */
 	u_int32_t	 qid;		/* queue id */
 	u_int16_t	 tag;		/* tag id */
 	u_int16_t	 delay;		/* delay packet by X ms */
