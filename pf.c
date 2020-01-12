@@ -259,7 +259,7 @@ void			 pf_state_key_link_reverse(struct pf_state_key *,
 			    struct pf_state_key *);
 void			 pf_state_key_unlink_reverse(struct pf_state_key *);
 void			 pf_state_key_link_inpcb(struct pf_state_key *,
-			    struct inpcb *);
+			    struct obsd_pf_inpcb *);
 void			 pf_state_key_unlink_inpcb(struct pf_state_key *);
 void			 pf_inpcb_unlink_state_key(struct obsd_pf_inpcb *);
 void			 pf_pktenqueue_delayed(void *);
@@ -7482,10 +7482,10 @@ pf_mbuf_unlink_inpcb(struct mbuf *m)
 }
 
 void
-pf_state_key_link_inpcb(struct pf_state_key *sk, struct inpcb *inp)
+pf_state_key_link_inpcb(struct pf_state_key *sk, struct obsd_pf_inpcb *inp)
 {
 	KASSERT(sk->inp == NULL);
-	sk->inp = in_pcbref(inp);
+	sk->inp = in_pcbref(inp->inp);
 	KASSERT(inp->inp_pf_sk == NULL);
 	inp->inp_pf_sk = pf_state_key_ref(sk);
 }
