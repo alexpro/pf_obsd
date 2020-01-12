@@ -1090,7 +1090,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 			pf_state_key_link_reverse(sk, pkt_sk);
 		else if (pd->dir == PF_OUT && pd->ph_pf->oinp &&
 		    !pd->ph_pf->oinp->inp_pf_sk && !sk->inp)
-			pf_state_key_link_inpcb(sk, pd->m->m_pkthdr.pf.inp);
+			pf_state_key_link_inpcb(sk, pd->ph_pf->oinp);
 	}
 
 	/* remove firewall data from outbound packet */
