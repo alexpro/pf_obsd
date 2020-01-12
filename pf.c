@@ -1070,8 +1070,8 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 
 		if (pkt_sk == NULL) {
 			/* here we deal with local outbound packet */
-			if (pd->ph_pf->inp != NULL) {
-				inp_sk = pd->ph_pf->inp->inp_pf_sk;
+			if (pd->ph_pf->oinp != NULL) {
+				inp_sk = pd->ph_pf->oinp->inp_pf_sk;
 				if (pf_state_key_isvalid(inp_sk))
 					sk = inp_sk;
 				else
