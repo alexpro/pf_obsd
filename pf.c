@@ -261,7 +261,7 @@ void			 pf_state_key_unlink_reverse(struct pf_state_key *);
 void			 pf_state_key_link_inpcb(struct pf_state_key *,
 			    struct inpcb *);
 void			 pf_state_key_unlink_inpcb(struct pf_state_key *);
-void			 pf_inpcb_unlink_state_key(struct inpcb *);
+void			 pf_inpcb_unlink_state_key(struct obsd_pf_inpcb *);
 void			 pf_pktenqueue_delayed(void *);
 
 #if NPFLOG > 0
@@ -7491,7 +7491,7 @@ pf_state_key_link_inpcb(struct pf_state_key *sk, struct inpcb *inp)
 }
 
 void
-pf_inpcb_unlink_state_key(struct inpcb *inp)
+pf_inpcb_unlink_state_key(struct obsd_pf_inpcb *inp)
 {
 	struct pf_state_key *sk = inp->inp_pf_sk;
 
@@ -7500,7 +7500,7 @@ pf_inpcb_unlink_state_key(struct inpcb *inp)
 		sk->inp = NULL;
 		inp->inp_pf_sk = NULL;
 		pf_state_key_unref(sk);
-		in_pcbunref(inp);
+		in_pcbunref(inp->inp);
 	}
 }
 
