@@ -1058,7 +1058,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 	sk = NULL;
 	if (pd->dir == PF_OUT) {
 		/* first if block deals with outbound forwarded packet */
-		pkt_sk = pd->m->m_pkthdr.pf.statekey;
+		pkt_sk = pd->ph_pf->statekey;
 
 		if (!pf_state_key_isvalid(pkt_sk)) {
 			pf_mbuf_unlink_state_key(pd->m);
@@ -1070,8 +1070,8 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 
 		if (pkt_sk == NULL) {
 			/* here we deal with local outbound packet */
-			if (pd->m->m_pkthdr.pf.inp != NULL) {
-				inp_sk = pd->m->m_pkthdr.pf.inp->inp_pf_sk;
+			if (pd->ph_pf->inp != NULL) {
+				inp_sk = pd->ph_pf->inp->inp_pf_sk;
 				if (pf_state_key_isvalid(inp_sk))
 					sk = inp_sk;
 				else

@@ -41,6 +41,19 @@
 
 extern struct rwlock pf_lock;
 
+/* from OpenBSD (mbuf.h) */
+struct pkthdr_pf {
+	struct pf_state_key *statekey;	/* pf stackside statekey */
+	struct inpcb	*inp;		/* connected pcb for outgoing packet */
+	u_int32_t	 qid;		/* queue id */
+	u_int16_t	 tag;		/* tag id */
+	u_int16_t	 delay;		/* delay packet by X ms */
+	u_int8_t	 flags;
+	u_int8_t	 routed;
+	u_int8_t	 prio;
+	u_int8_t	 pad[1];
+};
+
 struct pf_pdesc {
 	struct {
 		int	 done;
@@ -55,6 +68,7 @@ struct pf_pdesc {
 
 	struct pfi_kif	*kif;		/* incoming interface */
 	struct mbuf	*m;		/* mbuf containing the packet */
+	struct pkthdr_pf *ph_pf;	/* pkthdr_pf from OpenBSD */
 	struct pf_addr	*src;		/* src address */
 	struct pf_addr	*dst;		/* dst address */
 	u_int16_t	*pcksum;	/* proto cksum */
