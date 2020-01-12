@@ -1242,7 +1242,7 @@ pf_purge_expired_rules(void)
 
 	while ((r = SLIST_FIRST(&pf_rule_gcl)) != NULL) {
 		SLIST_REMOVE(&pf_rule_gcl, r, pf_rule, gcle);
-		KASSERT(r->rule_flag & PFRULE_EXPIRED);
+		KASSERT(r->rule_flag & PFRULE_EXPIRED,"pf_purge_expired_rules: rule not expired");
 		pf_purge_rule(r);
 	}
 }
