@@ -1250,7 +1250,7 @@ pf_purge_expired_rules(void)
 void
 pf_purge_timeout(void *unused)
 {
-	task_add(net_tq(0), &pf_purge_task);
+	taskqueue_enqueue(taskqueue_swi, &pf_purge_task);
 }
 
 void
