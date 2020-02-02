@@ -231,6 +231,8 @@ struct pfi_dynaddr {
 #define pool_get(p, f)	uma_zalloc(*(p), (f))
 #define pool_put(p, o)	uma_zfree(*(p), (o))
 
+#define timeout_add_sec(t, s)	callout_schedule(t, s*hz)
+
 /*
  * Logging macros
  */
