@@ -173,6 +173,14 @@ extern struct rwlock	pf_state_lock;
 	} while (0)
 
 #else /* !WITH_PF_LOCK */
+
+/*Temporary stubs below, TODO: make it work*/
+#define KERNEL_LOCK()		(void)(0)
+#define KERNEL_UNLOCK()		(void)(0)
+#define NET_LOCK()		(void)(0)
+#define NET_UNLOCK()		(void)(0)
+/*End of stubs*/
+
 #define PF_LOCK()		(void)(0)
 #define PF_UNLOCK()		(void)(0)
 #define PF_ASSERT_LOCKED()	(void)(0)
