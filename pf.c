@@ -1948,8 +1948,6 @@ pf_cksum_fixup_a(u_int16_t *cksum, const struct pf_addr *a,
 			     o[6] + NEG(n[6]) + o[7] + NEG(n[7]);
 		break;
 #endif /* INET6 */
-	default:
-		unhandled_af(af);
 	}
 
 	x = (x & 0xffff) + (x >> 16);
