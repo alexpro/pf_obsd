@@ -1311,8 +1311,8 @@ pf_state_expires(const struct pf_state *state)
 	if (state->timeout == PFTM_PURGE)
 		return (0);
 
-	KASSERT(state->timeout != PFTM_UNLINKED);
-	KASSERT(state->timeout < PFTM_MAX);
+	KASSERT(state->timeout != PFTM_UNLINKED,"state->timeout != PFTM_UNLINKED");
+	KASSERT(state->timeout < PFTM_MAX,"state->timeout < PFTM_MAX");
 
 	timeout = state->rule.ptr->timeout[state->timeout];
 	if (!timeout)
@@ -1435,7 +1435,7 @@ pf_free_state(struct pf_state *cur)
 	if (pfsync_state_in_use(cur))
 		return;
 #endif	/* NPFSYNC > 0 */
-	KASSERT(cur->timeout == PFTM_UNLINKED);
+	KASSERT(cur->timeout == PFTM_UNLINKED,"cur->timeout == PFTM_UNLINKED");
 	if (--cur->rule.ptr->states_cur == 0 &&
 	    cur->rule.ptr->src_nodes == 0)
 		pf_rm_rule(NULL, cur->rule.ptr);
