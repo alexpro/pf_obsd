@@ -2415,7 +2415,7 @@ pf_translate_af(struct pf_pdesc *pd)
 
 	/* flush pd->pcksum */
 	if (copyback)
-		m_copyback(pd->m, pd->off, pd->hdrlen, &pd->hdr, M_NOWAIT);
+		m_copyback(pd->m, pd->off, pd->hdrlen, &pd->hdr);
 
 	return (0);
 }
@@ -2766,7 +2766,7 @@ pf_modulate_sack(struct pf_pdesc *pd, struct pf_state_peer *dst)
 	}
 
 	if (copyback)
-		m_copyback(pd->m, optsoff, olen, opts, M_NOWAIT);
+		m_copyback(pd->m, optsoff, olen, opts);
 	return (copyback);
 }
 
