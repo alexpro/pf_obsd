@@ -232,6 +232,7 @@ struct pfi_dynaddr {
 #define pool_put(p, o)	uma_zfree(*(p), (o))
 
 #define timeout_add_sec(t, s)	callout_schedule(t, s*hz)
+#define	MAX_TCPOPTLEN		40 //From OpenBSD tcp.h
 
 /*
  * Logging macros
