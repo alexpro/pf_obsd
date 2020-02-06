@@ -2795,8 +2795,6 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 		len = sizeof(struct ip6_hdr) + tlen;
 		break;
 #endif /* INET6 */
-	default:
-		unhandled_af(af);
 	}
 
 	/* create outgoing mbuf */
