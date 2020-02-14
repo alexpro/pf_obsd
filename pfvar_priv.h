@@ -60,6 +60,12 @@ struct pkthdr_pf {
 	u_int8_t	 pad[1];
 };
 
+/*FreeBSD workaround*/
+struct mbuf_pf {
+	struct mbuf *mbuf;
+	struct pkhdr_pf *ph_pf;
+};
+
 struct pf_pdesc {
 	struct {
 		int	 done;
