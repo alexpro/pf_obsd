@@ -322,6 +322,8 @@ RB_GENERATE(pf_state_tree_id, pf_state,
 SLIST_HEAD(pf_rule_gcl, pf_rule)	pf_rule_gcl =
 	SLIST_HEAD_INITIALIZER(pf_rule_gcl);
 
+static MALLOC_DEFINE(M_PF_OBSD,"pf_obsd","pf_obsd data");
+
 __inline int
 pf_addr_compare(struct pf_addr *a, struct pf_addr *b, sa_family_t af)
 {
@@ -2771,6 +2773,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
     u_int16_t rtag, u_int sack, u_int rdom)
 {
 	struct mbuf	*m;
+	struct mbuf_pf	*m_pf;
 	int		 len, tlen;
 	struct ip	*h;
 #ifdef INET6
@@ -2801,6 +2804,18 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	m = m_gethdr(M_NOWAIT, MT_HEADER);
 	if (m == NULL)
 		return (NULL);
+	m_pf = malloc(sizeof(struct mbuf_pf),M_PF_OBSD,M_NOWAIT);
+	if (m_pf == NULL) {
+		m_freem(m);
+		return (NULL);
+	}
+	m_pf->ph_pf = malloc(sizeof(struct pkthdr_pf),M_PF_OBSD,M_NOWAIT);
+	if(m_pf->ph_pf == NULL) {
+		m_freem(m);
+		free(m_pf,M_PF_OBSD);
+		return (NULL);
+	}
+	m_pf->m = m;
 	if (tag)
 		m->m_pkthdr.pf.flags |= PF_TAG_GENERATED;
 	m->m_pkthdr.pf.tag = rtag;
