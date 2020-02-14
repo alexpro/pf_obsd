@@ -62,8 +62,8 @@ struct pkthdr_pf {
 
 /*FreeBSD workaround*/
 struct mbuf_pf {
-	struct mbuf *mbuf;
-	struct pkhdr_pf *ph_pf;
+	struct mbuf *m;
+	struct pkthdr_pf *ph_pf;
 };
 
 struct pf_pdesc {
