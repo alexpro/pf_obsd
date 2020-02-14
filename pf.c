@@ -2798,7 +2798,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	}
 
 	/* create outgoing mbuf */
-	m = m_gethdr(M_DONTWAIT, MT_HEADER);
+	m = m_gethdr(M_NOWAIT, MT_HEADER);
 	if (m == NULL)
 		return (NULL);
 	if (tag)
