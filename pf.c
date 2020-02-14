@@ -2763,7 +2763,7 @@ pf_modulate_sack(struct pf_pdesc *pd, struct pf_state_peer *dst)
 	return (copyback);
 }
 
-struct mbuf *
+struct mbuf_pf *
 pf_build_tcp(const struct pf_rule *r, sa_family_t af,
     const struct pf_addr *saddr, const struct pf_addr *daddr,
     u_int16_t sport, u_int16_t dport, u_int32_t seq, u_int32_t ack,
