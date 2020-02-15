@@ -48,6 +48,17 @@ struct obsd_pf_inpcb {
 };
 
 /* from OpenBSD (mbuf.h) */
+
+/* pkthdr_pf.flags */
+#define	PF_TAG_GENERATED		0x01
+#define	PF_TAG_SYNCOOKIE_RECREATED	0x02
+#define	PF_TAG_TRANSLATE_LOCALHOST	0x04
+#define	PF_TAG_DIVERTED			0x08
+#define	PF_TAG_DIVERTED_PACKET		0x10
+#define	PF_TAG_REROUTE			0x20
+#define	PF_TAG_REFRAGMENTED		0x40	/* refragmented ipv6 packet */
+#define	PF_TAG_PROCESSED		0x80	/* packet was checked by pf */
+
 struct pkthdr_pf {
 	struct pf_state_key *statekey;	/* pf stackside statekey */
 	struct obsd_pf_inpcb	*oinp;		/* connected pcb for outgoing packet */
