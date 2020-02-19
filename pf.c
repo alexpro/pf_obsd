@@ -2817,13 +2817,12 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	}
 	m_pf->m = m;
 	if (tag)
-		m->m_pkthdr.pf.flags |= PF_TAG_GENERATED;
-	m->m_pkthdr.pf.tag = rtag;
-	m->m_pkthdr.ph_rtableid = rdom;
+		m_pf->ph_pf->flags |= PF_TAG_GENERATED;
+	m_pf->ph_pf->tag = rtag;
 	if (r && (r->scrub_flags & PFSTATE_SETPRIO))
-		m->m_pkthdr.pf.prio = r->set_prio[0];
+		m_pf->ph_pf->prio = r->set_prio[0];
 	if (r && r->qid)
-		m->m_pkthdr.pf.qid = r->qid;
+		m_pf->ph_pf->qid = r->qid;
 	m->m_data += max_linkhdr;
 	m->m_pkthdr.len = m->m_len = len;
 	m->m_pkthdr.ph_ifidx = 0;
