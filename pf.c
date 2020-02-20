@@ -2858,8 +2858,6 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 		th = (struct tcphdr *)((caddr_t)h6 + sizeof(struct ip6_hdr));
 		break;
 #endif /* INET6 */
-	default:
-		unhandled_af(af);
 	}
 
 	/* TCP header */
