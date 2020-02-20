@@ -2826,7 +2826,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	m->m_data += max_linkhdr;
 	m->m_pkthdr.len = m->m_len = len;
 	m->m_pkthdr.rcvif = NULL;
-	m->m_pkthdr.csum_flags |= M_TCP_CSUM_OUT;
+	//m->m_pkthdr.csum_flags |= M_TCP_CSUM_OUT;
 	memset(m->m_data, 0, len);
 	switch (af) {
 	case AF_INET:
