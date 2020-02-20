@@ -2883,7 +2883,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 		opt += 2;
 	}
 
-	return (m);
+	return (m_pf);
 }
 
 void
