@@ -2894,10 +2894,12 @@ pf_send_tcp(const struct pf_rule *r, sa_family_t af,
     u_int16_t rtag, u_int rdom)
 {
 	struct mbuf	*m;
+	struct mbuf_pf	*mpf;
 
-	if ((m = pf_build_tcp(r, af, saddr, daddr, sport, dport, seq, ack,
+	if ((mpf = pf_build_tcp(r, af, saddr, daddr, sport, dport, seq, ack,
 	    flags, win, mss, ttl, tag, rtag, 0, rdom)) == NULL)
 		return;
+	m=mpf->m;
 
 	switch (af) {
 	case AF_INET:
