@@ -323,6 +323,10 @@ SLIST_HEAD(pf_rule_gcl, pf_rule)	pf_rule_gcl =
 	SLIST_HEAD_INITIALIZER(pf_rule_gcl);
 
 static MALLOC_DEFINE(M_PF_OBSD,"pf_obsd","pf_obsd data");
+static struct mtx pf_sendqueue_mtx;
+MTX_SYSINIT(pf_sendqueue_mtx, &pf_sendqueue_mtx, "pf_obsd send queue", MTX_DEF);
+#define	PF_SENDQ_LOCK()		mtx_lock(&pf_sendqueue_mtx)
+#define	PF_SENDQ_UNLOCK()	mtx_unlock(&pf_sendqueue_mtx)
 
 __inline int
 pf_addr_compare(struct pf_addr *a, struct pf_addr *b, sa_family_t af)
