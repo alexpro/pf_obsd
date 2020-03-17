@@ -323,6 +323,23 @@ SLIST_HEAD(pf_rule_gcl, pf_rule)	pf_rule_gcl =
 	SLIST_HEAD_INITIALIZER(pf_rule_gcl);
 
 static MALLOC_DEFINE(M_PF_OBSD,"pf_obsd","pf_obsd data");
+
+struct pf_send_entry {
+	STAILQ_ENTRY(pf_send_entry)	pfse_next;
+	struct mbuf			*pfse_m;
+	enum {
+		PFSE_IP,
+		PFSE_IP6,
+		PFSE_ICMP,
+		PFSE_ICMP6,
+	}				pfse_type;
+	struct {
+		int		type;
+		int		code;
+		int		mtu;
+	} icmpopts;
+};
+
 static struct mtx pf_sendqueue_mtx;
 MTX_SYSINIT(pf_sendqueue_mtx, &pf_sendqueue_mtx, "pf_obsd send queue", MTX_DEF);
 #define	PF_SENDQ_LOCK()		mtx_lock(&pf_sendqueue_mtx)
