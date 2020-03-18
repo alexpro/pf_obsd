@@ -340,6 +340,9 @@ struct pf_send_entry {
 	} icmpopts;
 };
 
+STAILQ_HEAD(pf_send_head, pf_send_entry);
+struct pf_send_head pf_sendqueue=STAILQ_HEAD_INITIALIZER(pf_sendqueue);
+
 static struct mtx pf_sendqueue_mtx;
 MTX_SYSINIT(pf_sendqueue_mtx, &pf_sendqueue_mtx, "pf_obsd send queue", MTX_DEF);
 #define	PF_SENDQ_LOCK()		mtx_lock(&pf_sendqueue_mtx)
