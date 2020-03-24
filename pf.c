@@ -1056,6 +1056,8 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 	inp_sk = NULL;
 	pkt_sk = NULL;
 	sk = NULL;
+
+#ifndef __FreeBSD__
 	if (pd->dir == PF_OUT) {
 		/* first if block deals with outbound forwarded packet */
 		pkt_sk = pd->m->m_pkthdr.pf.statekey;
@@ -1096,6 +1098,7 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 	/* remove firewall data from outbound packet */
 	if (pd->dir == PF_OUT)
 		pf_pkt_addr_changed(pd->m);
+#endif /*__FreeBSD__*/
 
 	/* list is sorted, if-bound states before floating ones */
 	TAILQ_FOREACH(si, &sk->states, entry)
