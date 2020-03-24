@@ -1098,6 +1098,10 @@ pf_find_state(struct pf_pdesc *pd, struct pf_state_key_cmp *key,
 	/* remove firewall data from outbound packet */
 	if (pd->dir == PF_OUT)
 		pf_pkt_addr_changed(pd->m);
+#else
+	if ((sk = RB_FIND(pf_state_tree, &pf_statetbl,
+		    (struct pf_state_key *)key)) == NULL)
+			return (PF_DROP);
 #endif /*__FreeBSD__*/
 
 	/* list is sorted, if-bound states before floating ones */
