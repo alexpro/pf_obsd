@@ -2808,6 +2808,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	m = m_gethdr(M_NOWAIT, MT_HEADER);
 	if (m == NULL)
 		return (NULL);
+#ifndef __FreeBSD__
 	if (tag)
 		m->m_pkthdr.pf.flags |= PF_TAG_GENERATED;
 	m->m_pkthdr.pf.tag = rtag;
@@ -2820,6 +2821,7 @@ pf_build_tcp(const struct pf_rule *r, sa_family_t af,
 	m->m_pkthdr.len = m->m_len = len;
 	m->m_pkthdr.ph_ifidx = 0;
 	m->m_pkthdr.csum_flags |= M_TCP_CSUM_OUT;
+#endif /*__FreeBSD__*/
 	memset(m->m_data, 0, len);
 	switch (af) {
 	case AF_INET:
