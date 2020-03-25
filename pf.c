@@ -42,7 +42,9 @@
 #include "pflow.h"
 
 #include <sys/param.h>
+#include <sys/bus.h>
 #include <sys/endian.h>
+#include <sys/interrupt.h>
 #include <sys/systm.h>
 #include <sys/mbuf.h>
 #include <sys/filio.h>
@@ -680,6 +682,16 @@ pf_state_rm_src_node(struct pf_state *s, struct pf_src_node *sn)
 }
 
 /* state table stuff */
+
+static void
+ip_send(struct pf_send_entry *pfse)
+{
+
+	PF_SENDQ_LOCK();
+	STAILQ_INSERT_TAIL(&pf_sendqueue, pfse, pfse_next);
+	PF_SENDQ_UNLOCK();
+	swi_sched(pf_swi_cookie, 0);
+}
 
 static __inline int
 pf_state_compare_key(struct pf_state_key *a, struct pf_state_key *b)
