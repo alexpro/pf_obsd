@@ -348,6 +348,8 @@ MTX_SYSINIT(pf_sendqueue_mtx, &pf_sendqueue_mtx, "pf_obsd send queue", MTX_DEF);
 #define	PF_SENDQ_LOCK()		mtx_lock(&pf_sendqueue_mtx)
 #define	PF_SENDQ_UNLOCK()	mtx_unlock(&pf_sendqueue_mtx)
 
+void* pf_swi_cookie;
+
 __inline int
 pf_addr_compare(struct pf_addr *a, struct pf_addr *b, sa_family_t af)
 {
