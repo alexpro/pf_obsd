@@ -322,6 +322,8 @@ RB_GENERATE(pf_state_tree_id, pf_state,
 SLIST_HEAD(pf_rule_gcl, pf_rule)	pf_rule_gcl =
 	SLIST_HEAD_INITIALIZER(pf_rule_gcl);
 
+static MALLOC_DEFINE(M_PF_OBSD,"pf_obsd","pf_obsd data");
+
 __inline int
 pf_addr_compare(struct pf_addr *a, struct pf_addr *b, sa_family_t af)
 {
