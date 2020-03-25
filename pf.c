@@ -2914,15 +2914,25 @@ pf_send_tcp(const struct pf_rule *r, sa_family_t af,
     u_int8_t flags, u_int16_t win, u_int16_t mss, u_int8_t ttl, int tag,
     u_int16_t rtag, u_int rdom)
 {
+	struct pf_send_entry *pfse;
 	struct mbuf	*m;
 
 	if ((m = pf_build_tcp(r, af, saddr, daddr, sport, dport, seq, ack,
 	    flags, win, mss, ttl, tag, rtag, 0, rdom)) == NULL)
 		return;
 
+	/* Allocate outgoing queue entry */
+	pfse = malloc(sizeof(*pfse), M_PF_OBSD, M_NOWAIT);
+	if(pfse == NULL) {
+		m_freem(m);
+		return;
+	}
+
 	switch (af) {
 	case AF_INET:
-		ip_send(m);
+		pfse->pfse_type = PFSE_IP;
+		pfse->pfse_m = m;
+		ip_send(pfse);
 		break;
 #ifdef INET6
 	case AF_INET6:
